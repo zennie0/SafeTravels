@@ -1,0 +1,1 @@
+{"name":"safetravels","private":true,"scripts":{"dev":"concurrently \"npm run server\" \"npm run client\"","server":"npm --prefix backend run dev","client":"npm --prefix frontend run dev"},"devDependencies":{"concurrently":"^9.1.2"}}

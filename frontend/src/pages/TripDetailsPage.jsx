@@ -1,0 +1,20 @@
+import React from 'react';
+import { ArrowLeft, CalendarDays, Check, Clock3, ExternalLink, Hotel, MapPin } from 'lucide-react';
+
+const dateLabel=value=>value?new Date(value).toLocaleDateString(undefined,{weekday:'long',month:'long',day:'numeric',year:'numeric'}):'';
+export default function TripDetailsPage({trip,onBack,onToggle}){
+ if(!trip)return <div className="page-content secondary-page"><button className="back-link" onClick={onBack}><ArrowLeft size={15}/> Back to trips</button><h1>Trip not found</h1></div>;
+ const activities=trip.activities||[];
+ const grouped=activities.reduce((groups,activity)=>{const key=activity.day||'Flexible';(groups[key]??=[]).push(activity);return groups;},{});
+ const days=Object.entries(grouped).sort(([a],[b])=>a==='Flexible'?1:b==='Flexible'?-1:a.localeCompare(b));
+ const complete=activities.filter(activity=>activity.completed).length;
+ return <div className="page-content secondary-page trip-details-page">
+  <button className="back-link trip-details-back" onClick={onBack}><ArrowLeft size={15}/> Back to my trips</button>
+  <section className="trip-details-hero">
+   <div className="trip-details-cover"><img src={trip.hotel?.thumbnail||trip.image||'https://images.unsplash.com/photo-1555881400-74d7acaacd8b?auto=format&fit=crop&w=1200&q=85'} alt={trip.destination}/><div/><span>{trip.label||'UPCOMING'}</span></div>
+   <div className="trip-details-summary"><span className="eyebrow"><MapPin size={14}/> YOUR TRIP PLAN</span><h1>{trip.destination||trip.place}</h1><p><CalendarDays size={15}/>{trip.dates}</p>{trip.hotel?.name&&<div className="trip-details-hotel"><Hotel size={16}/><span><small>YOUR STAY</small><strong>{trip.hotel.name}</strong>{trip.hotel.address&&<em>{trip.hotel.address}</em>}</span>{trip.hotel.link&&<a href={trip.hotel.link} target="_blank" rel="noreferrer" aria-label="Open hotel listing"><ExternalLink size={15}/></a>}</div>}<div className="trip-details-progress"><span>{complete} of {activities.length} activities complete</span><div><i style={{width:`${activities.length?complete/activities.length*100:0}%`}}/></div></div></div>
+  </section>
+  <div className="trip-activities-heading"><div><span className="eyebrow">YOUR ITINERARY</span><h2>Activities for this trip</h2><p>Check activities off as you go. Your progress is saved to this trip.</p></div><span className="trip-activity-count">{activities.length} planned</span></div>
+  {!activities.length?<div className="trip-no-activities"><CalendarDays size={22}/><h3>No activities planned yet</h3><p>This trip has no saved activities.</p></div>:<div className="trip-day-list">{days.map(([day,items])=><section className="trip-day" key={day}><div className="trip-day-heading"><CalendarDays size={17}/><h3>{day==='Flexible'?'Anytime':dateLabel(day)}</h3><span>{items.length} {items.length===1?'activity':'activities'}</span></div><div className="trip-day-activities">{[...items].sort((a,b)=>(a.time||'').localeCompare(b.time||'')).map((activity,index)=><article className={`trip-activity ${activity.completed?'trip-activity-done':''}`} key={activity._id||`${activity.title}-${index}`}><button className={`trip-activity-check ${activity.completed?'checked':''}`} aria-label={activity.completed?'Mark activity incomplete':'Mark activity complete'} onClick={()=>onToggle(activity)}>{activity.completed&&<Check size={16}/>}</button>{activity.thumbnail?<img src={activity.thumbnail} alt=""/>:<div className="trip-activity-placeholder"><MapPin size={19}/></div>}<div className="trip-activity-content"><strong>{activity.title}</strong><span>{activity.category||'Activity'}{activity.address?` · ${activity.address}`:''}</span>{activity.reason&&<small>{activity.reason}</small>}</div><div className="trip-activity-time"><Clock3 size={14}/>{activity.time||'Flexible'}</div>{activity.link&&<a className="trip-activity-link" href={activity.link} target="_blank" rel="noreferrer" aria-label={`Open ${activity.title} listing`}><ExternalLink size={15}/></a>}</article>)}</div></section>)}</div>}
+ </div>;
+}
