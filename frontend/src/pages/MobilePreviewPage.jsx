@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ArrowRight, Bell, CalendarDays, Check, Circle, Compass, Hotel, MapPin, Navigation, Plus, ShieldAlert, ShieldCheck, Siren, Sparkles } from 'lucide-react';
+import { ArrowRight, Bell, CalendarDays, Check, Circle, Compass, Hotel, MapPin, Plus, Shield, ShieldAlert, ShieldCheck, Siren, Sparkles } from 'lucide-react';
 
 const screens=[
  {id:'dashboard',label:'Dashboard',icon:<Compass size={14}/>},
