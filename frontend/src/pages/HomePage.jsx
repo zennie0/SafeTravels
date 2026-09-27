@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowDown, ArrowRight, CalendarDays, Check, Compass, Instagram, Linkedin, MapPin, Menu, Route, Shield, ShieldCheck, Sparkles, Twitter } from 'lucide-react';
+import MobilePreviewPage from './MobilePreviewPage.jsx';
 
 const features = [
   { icon: <Compass size={20}/>, title: 'A trip that fits you', text: 'Choose your destination and dates, then shape a schedule around what you actually want to do.' },
@@ -11,7 +12,7 @@ export default function HomePage({ onStart, onSignIn }) {
   return <div className="public-home">
     <header className="public-nav">
       <a href="#top" className="public-brand" aria-label="SafeTravels home"><span><ShieldCheck size={21}/></span>safe<b>travels</b></a>
-      <nav aria-label="Main navigation"><a href="#product">What we do</a><a href="#about">About</a><a href="#mission">Our motive</a><a href="#founders">Founders</a></nav>
+      <nav aria-label="Main navigation"><a href="#product">What we do</a><a href="#mobile-preview">Mobile view</a><a href="#about">About</a><a href="#mission">Our motive</a><a href="#founders">Founders</a></nav>
       <div className="public-nav-actions"><button className="public-login" onClick={onSignIn}>Log in</button><button className="public-nav-cta" onClick={onStart}>Start planning <ArrowRight size={15}/></button></div>
     </header>
 
@@ -37,6 +38,8 @@ export default function HomePage({ onStart, onSignIn }) {
         <div className="public-feature-grid">{features.map((item,index)=><article className="public-feature" key={item.title}><div className="feature-top"><span className="feature-icon">{item.icon}</span><span className="feature-index">0{index+1}</span></div><h3>{item.title}</h3><p>{item.text}</p><span className="feature-line"/></article>)}</div>
         <div className="product-ribbon"><div className="ribbon-icon"><Route size={19}/></div><p><b>One thoughtful plan.</b> Your stay, activities, schedule, and safety information connected from the start.</p><button onClick={onStart}>Build a trip <ArrowRight size={15}/></button></div>
       </section>
+
+      <MobilePreviewPage embedded/>
 
       <section id="about" className="public-section about-section"><div className="about-visual"><div className="about-map-lines"/><div className="map-pin pin-a"><MapPin size={18}/></div><div className="map-pin pin-b"><MapPin size={18}/></div><div className="map-pin pin-c"><ShieldCheck size={19}/></div><div className="about-route-line"/><div className="about-coordinate">TRIP COORDINATES <b>YOU · YOUR PLAN · PEACE OF MIND</b></div></div><div className="about-copy"><span className="public-eyebrow">ABOUT SAFETRAVELS</span><h2>Travel is better when the details feel <span>handled.</span></h2><p>SafeTravels is a travel-planning and safety companion designed to make the entire journey easier to prepare for. Pick a destination, explore stays and activities, turn your choices into a schedule, and keep local support within reach.</p><p>It’s a calmer way to move from “where should we go?” to “we’re here.”</p><button className="about-link" onClick={onStart}>Start with your destination <ArrowRight size={15}/></button></div></section>
 
